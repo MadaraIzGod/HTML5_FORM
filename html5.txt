@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+</head>
+<body>
+  <h2>Registration Form</h2>
+
+  <form id="registrationForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required><br><br>
+
+    <label for="registrationNo">Registration No:</label>
+    <input type="text" id="registrationNo" required><br><br>
+
+    <label for="designation">Designation:</label>
+    <select id="designation" required>
+      <option value="">Select</option>
+      <option value="Team Lead">Team Lead</option>
+      <option value="Developer">Developer</option>
+      <option value="Graphic Designer">Graphic Designer</option>
+      <option value="HR">HR</option>
+    </select><br><br>
+
+    <label>Gender:</label>
+    <input type="radio" id="male" name="gender" value="Male" required>
+    <label for="male">Male</label>
+    <input type="radio" id="female" name="gender" value="Female" required>
+    <label for="female">Female</label><br><br>
+
+    <label for="registrationDate">Registration Date:</label>
+    <input type="date" id="registrationDate" required><br><br>
+
+    <input type="submit" value="Add">
+  </form>
+
+  <h3>Registration List</h3>
+  <table id="registrationList">
+    <thead>
+      <tr>
+        <th>   Name   </th>
+        <th>  Registration No  </th>
+        <th>   Designation   </th>
+        <th>   Gender    </th>
+        <th>    Registration Date    </th>
+        <th>     Actions     </th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <script>
+        let registrations = [];
+
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById("name").value;
+      const registrationNo = document.getElementById("registrationNo").value;
+      const designation = document.getElementById("designation").value;
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+      const registrationDate = document.getElementById("registrationDate").value;
+
+          const registration = {
+        name: name,
+        registrationNo: registrationNo,
+        designation: designation,
+        gender: gender,
+        registrationDate: registrationDate
+      };
+
+          registrations.push(registration);
+
+         updateRegistrationList();
+
+          document.getElementById("registrationForm").reset();
+    });
+
+        function editRegistration(index) {
+      const registration = registrations[index];
+
+           document.getElementById("name").value = registration.name;
+      document.getElementById("registrationNo").value = registration.registrationNo;
+      document.getElementById("designation").value = registration.designation;
+      document.querySelector('input[name="gender"][value="' + registration.gender + '"]').checked = true;
+      document.getElementById("registrationDate").value = registration.registrationDate;
+
+           registrations.splice(index, 1);
+
+     
+      updateRegistrationList();
+    }
+
+        function deleteRegistration(index) {
+            registrations.splice(index, 1);
+
+           updateRegistrationList();
+    }
+
+        function updateRegistrationList() {
+      const registrationTable = document.getElementById("registrationList");
+      const tableBody = registrationTable.querySelector("tbody");
+
+      tableBody.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
